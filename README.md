@@ -4,6 +4,8 @@
 
 FlowMind AI is an AI automation platform designed to help you **create AI agents, connect them to tools, and build intelligent workflows** through a simple and extensible architecture.
 
+<img width="1919" height="1047" alt="image" src="https://github.com/user-attachments/assets/476e048f-78c4-4968-b8c2-faa42bd4744c" />
+
 > 🚀 **Turn ideas into AI-powered workflows.**
 
 ---
