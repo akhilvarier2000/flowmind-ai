@@ -1,4 +1,4 @@
-<p align="center"> # FlowMind AI </p>
+ # FlowMind AI
 
 
 ### Build, connect, and automate intelligent AI agents.
