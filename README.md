@@ -1,641 +1,325 @@
- # FlowMind AI
+# FlowMind AI
+
+An AI automation platform for building intelligent AI agents and workflows.
+
+<img width="1465" height="840" alt="Screenshot 2026-09-06 at 10 45 22 AM" src="https://github.com/user-attachments/assets/c2976872-9579-497b-bdef-6cb48082922f" />
 
 
-### Build, connect, and automate intelligent AI agents.
+## 🚀 Overview
 
-FlowMind AI is an AI automation platform designed to help you **create AI agents, connect them to tools, and build intelligent workflows** through a simple and extensible architecture.
+FlowMind AI is a powerful platform designed to help developers and businesses create, connect, and automate intelligent AI agents. Built with a modular architecture, it enables the rapid development of AI-powered applications through a simple API interface.
 
-<img width="2930" height="1680" alt="image" src="https://github.com/user-attachments/assets/e494aedb-2816-4fa2-ad22-b6e5ebf17a41" />
+## ✨ Key Features
 
+- **🤖 AI Agent Management**: Create, configure, and manage multiple AI agents with custom system prompts
+- **💬 Real-time Chat Interface**: Interact with agents through RESTful API endpoints
+- **🔌 Extensible Architecture**: Modular design allows easy integration of new tools and capabilities
+- **🗃️ Persistent Storage**: PostgreSQL database for storing agent configurations and conversation history
+- **📊 Token Usage Tracking**: Monitor and optimize AI usage costs
+- **🔐 Secure Authentication**: JWT-based authentication for protecting API endpoints
+- **📈 Analytics Dashboard**: Visualize agent performance and usage metrics
+- **🔄 Workflow Automation**: Chain agents and tools to create complex automated workflows
 
-> 🚀 **Turn ideas into AI-powered workflows.**
+## 🏗️ Architecture
 
----
+FlowMind AI follows a clean, layered architecture:
 
-<p align="center">
-
-<a href="#-features">
-<img src="https://img.shields.io/badge/Features-Explore-blue?style=for-the-badge" alt="Features">
-</a>
-
-<a href="#-quick-start">
-<img src="https://img.shields.io/badge/Quick_Start-Get_Started-success?style=for-the-badge" alt="Quick Start">
-</a>
-
-<a href="#-api">
-<img src="https://img.shields.io/badge/API-Documentation-orange?style=for-the-badge" alt="API">
-</a>
-
-</p>
-
-<p align="center">
-
-<img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white">
-<img src="https://img.shields.io/badge/FastAPI-005571?style=flat-square&logo=fastapi&logoColor=white">
-<img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white">
-<img src="https://img.shields.io/badge/SQLAlchemy-D71F00?style=flat-square">
-<img src="https://img.shields.io/badge/AI-Powered-purple?style=flat-square">
-
-</p>
-
----
-
-## 📑 Navigation
-
-* [✨ Features](#-features)
-* [🏗️ Architecture](#️-architecture)
-* [📂 Project Structure](#-project-structure)
-* [⚡ Quick Start](#-quick-start)
-* [🔐 Environment Variables](#-environment-variables)
-* [🚀 Running the Application](#-running-the-application)
-* [🔌 API](#-api)
-* [🤖 Agent System](#-agent-system)
-* [🗄️ Database](#️-database)
-* [🛠️ Tech Stack](#️-tech-stack)
-* [🧪 Testing](#-testing)
-* [🗺️ Roadmap](#️-roadmap)
-* [🤝 Contributing](#-contributing)
-* [📄 License](#-license)
-
----
-
-# ✨ Features
-
-### 🤖 AI Agents
-
-Create specialized AI agents with:
-
-* Custom system prompts
-* Configurable AI models
-* Persistent agent configuration
-* Individual agent conversations
-
-### 💬 AI Chat
-
-Interact directly with your agents through the API.
-
-```text
-User
- ↓
-Agent
- ↓
-System Prompt
- ↓
-AI Model
- ↓
-Response
+```
+Frontend (React/Vue) → API Gateway → Agent Service → AI Service → LLM Providers
+                              ↓
+                      Database (PostgreSQL) ↔ Cache (Redis)
 ```
 
-### 🔌 Extensible Architecture
+The platform separates concerns into distinct services:
+- **API Layer**: Handles HTTP requests and authentication
+- **Agent Service**: Manages agent lifecycle and configurations
+- **AI Service**: Interfaces with various LLM providers
+- **Storage Layer**: Persistent data storage with PostgreSQL
+- **Cache Layer**: Redis for temporary data and session storage
 
-FlowMind AI is designed so additional capabilities can be added without rebuilding the core application.
+## 📂 Project Structure
 
-Future integrations can include:
-
-* Web search
-* APIs
-* Databases
-* File systems
-* External SaaS tools
-* Webhooks
-* Custom functions
-
-### 🧠 Automation Workflows
-
-The long-term goal is to allow users to combine:
-
-```text
-Trigger
-   ↓
-AI Agent
-   ↓
-Decision
-   ↓
-Tool
-   ↓
-Action
-   ↓
-Result
 ```
-
-### 🗃️ Persistent Data
-
-Agent configurations and application data are stored using PostgreSQL.
-
----
-
-# 🏗️ Architecture
-
-```mermaid
-flowchart TD
-
-    A[Frontend] --> B[FastAPI Backend]
-
-    B --> C[API Router]
-
-    C --> D[Agent Service]
-
-    D --> E[(PostgreSQL)]
-
-    C --> F[AI Service]
-
-    F --> G[LLM Provider]
-
-    D --> H[Agent Configuration]
-
-    H --> F
-```
-
-### Request Flow
-
-```mermaid
-sequenceDiagram
-
-    participant U as User
-    participant API as FastAPI
-    participant DB as PostgreSQL
-    participant AI as AI Service
-
-    U->>API: POST /api/agents/{id}/chat
-    API->>DB: Fetch Agent
-    DB-->>API: Agent Configuration
-    API->>AI: Generate Response
-    AI-->>API: AI Response
-    API-->>U: ChatResponse
-```
-
----
-
-# 📂 Project Structure
-
-```text
 flowmind-ai/
-│
 ├── backend/
-│   │
 │   ├── app/
-│   │   ├── api/
-│   │   │   └── agents.py
-│   │   │
-│   │   ├── db/
-│   │   │   ├── base.py
-│   │   │   └── session.py
-│   │   │
-│   │   ├── models/
-│   │   │   └── agent.py
-│   │   │
-│   │   ├── schemas/
-│   │   │   └── agent.py
-│   │   │
-│   │   ├── services/
-│   │   │   ├── agent_service.py
-│   │   │   └── ai_service.py
-│   │   │
-│   │   └── main.py
-│   │
-│   ├── .env
-│   ├── requirements.txt
-│   └── ...
-│
+│   │   ├── api/           # API route definitions
+│   │   ├── core/          # Core configurations and utilities
+│   │   ├── db/            # Database models and connections
+│   │   ├── models/        # SQLAlchemy models
+│   │   ├── schemas/       # Pydantic schemas for validation
+│   │   ├── services/      # Business logic implementations
+│   │   └── main.py        # Application entry point
+│   ├── requirements.txt   # Python dependencies
+│   └── .env.example       # Environment variables template
 ├── frontend/
-│   └── ...
-│
-├── .gitignore
-├── README.md
-└── ...
+│   ├── src/               # Frontend source code
+│   ├── public/            # Static assets
+│   └── package.json       # Frontend dependencies
+├── docker-compose.yml     # Container orchestration
+├── Dockerfile             # Backend container definition
+├── README.md              # This file
+└── .gitignore             # Git ignore patterns
 ```
 
----
+## ⚡ Quick Start
 
-# ⚡ Quick Start
+### Prerequisites
+- Python 3.11+
+- Node.js 16+ (for frontend development)
+- PostgreSQL 14+
+- Redis (optional, for caching)
+- Docker and Docker Compose (for containerized deployment)
 
-## 1️⃣ Clone the repository
+### Backend Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/akhilvarier2000/flowmind-ai.git
+   cd flowmind-ai
+   ```
+
+2. **Set up the backend**
+   ```bash
+   cd backend
+   python3 -m venv .venv
+   
+   # On macOS/Linux
+   source .venv/bin/activate
+   
+   # On Windows
+   .venv\Scripts\activate
+   
+   pip install -r requirements.txt
+   ```
+
+3. **Configure environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Initialize the database**
+   ```bash
+   # Assuming PostgreSQL is running
+   createdb flowmind
+   alembic upgrade head  # If using migrations
+   ```
+
+5. **Run the application**
+   ```bash
+   uvicorn app.main:app --reload --port 8000
+   ```
+
+### Frontend Setup (Optional)
 
 ```bash
-git clone https://github.com/akhilvarier2000/flowmind-ai.git
+cd ../frontend
+npm install
+npm run dev  # For development
+# or
+npm run build  # For production
 ```
 
-```bash
-cd flowmind-ai
+## 🔐 Environment Variables
+
+Create a `.env` file in the backend directory with the following variables:
+
+```env
+# Server Settings
+HOST=0.0.0.0
+PORT=8000
+DEBUG=True
+
+# Database
+DATABASE_URL=postgresql://username:password@localhost:5432/flowmind
+
+# Redis (optional)
+REDIS_URL=redis://localhost:6379/0
+
+# Security
+SECRET_KEY=your-secret-key-here
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# AI Providers (add as needed)
+OPENAI_API_KEY=your-openai-api-key
+ANTHROPIC_API_KEY=your-anthropic-api-key
+GOOGLE_API_KEY=your-google-api-key
+
+# CORS
+BACKEND_CORS_ORIGINS=["http://localhost:3000", "http://localhost:8080"]
 ```
 
----
+## 🚀 Running the Application
 
-## 2️⃣ Backend Setup
-
-Move into the backend:
-
+### Development Mode
 ```bash
+# Backend
 cd backend
+uvicorn app.main:app --reload
+
+# Frontend (in another terminal)
+cd frontend
+npm run dev
 ```
 
-Create a virtual environment:
-
+### Production Mode (Using Docker)
 ```bash
-python3 -m venv .venv
-```
-
-Activate it:
-
-### macOS / Linux
-
-```bash
-source .venv/bin/activate
-```
-
-### Windows
-
-```powershell
-.venv\Scripts\activate
-```
-
----
-
-## 3️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# 🔐 Environment Variables
-
-Create:
-
-```text
-backend/.env
-```
-
-Example:
-
-```env
-DATABASE_URL=postgresql://username:password@localhost:5432/flowmind
-OPENAI_API_KEY=your_api_key_here
-SECRET_KEY=your_secret_key_here
-```
-
-> ⚠️ **Never commit `.env` files or API keys to GitHub.**
-
-For other developers, create:
-
-```text
-.env.example
-```
-
-Example:
-
-```env
-DATABASE_URL=
-OPENAI_API_KEY=
-SECRET_KEY=
-```
-
----
-
-# 🗄️ Database
-
-FlowMind AI uses:
-
-```text
-PostgreSQL
-     ↓
-SQLAlchemy
-     ↓
-FastAPI
-```
-
-Make sure PostgreSQL is running before starting the backend.
-
-Example database:
-
-```sql
-CREATE DATABASE flowmind;
-```
-
-Then configure:
-
-```env
-DATABASE_URL=postgresql://username:password@localhost:5432/flowmind
-```
-
----
-
-# 🚀 Running the Application
-
-From the `backend` directory:
-
-```bash
-uvicorn app.main:app --reload --port 8000
+docker-compose up --build
 ```
 
 The API will be available at:
+- **Local Development**: http://localhost:8000
+- **API Documentation**: http://localhost:8000/docs (Swagger UI)
+- **Alternative Docs**: http://localhost:8000/redoc (ReDoc)
 
-```text
-http://127.0.0.1:8000
-```
+## 🔌 API Endpoints
 
-### Interactive API Documentation
+### Agent Management
+- `GET /api/agents/` - List all agents
+- `POST /api/agents/` - Create a new agent
+- `GET /api/agents/{agent_id}` - Get agent details
+- `PUT /api/agents/{agent_id}` - Update an agent
+- `DELETE /api/agents/{agent_id}` - Delete an agent
 
-FastAPI automatically provides Swagger UI:
+### Agent Interaction
+- `POST /api/agents/{agent_id}/chat` - Send a message to an agent
+- `GET /api/agents/{agent_id}/history` - Get conversation history
+- `DELETE /api/agents/{agent_id}/history` - Clear conversation history
 
-```text
-http://127.0.0.1:8000/docs
-```
+### System
+- `GET /health` - Health check endpoint
+- `GET /metrics` - Prometheus metrics (if enabled)
+- `GET /docs` - Interactive API documentation
 
-and ReDoc:
+## 🤖 Creating Your First Agent
 
-```text
-http://127.0.0.1:8000/redoc
-```
-
----
-
-# 🔌 API
-
-## Get All Agents
-
-```http
-GET /api/agents/
-```
-
-Example:
+Here's how to create and interact with an agent using curl:
 
 ```bash
-curl http://127.0.0.1:8000/api/agents/
+# Create a new research assistant agent
+curl -X POST "http://localhost:8000/api/agents/" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Research Assistant",
+    "description": "An AI agent specialized in research tasks",
+    "system_prompt": "You are an expert research assistant. Provide detailed, well-sourced information on any topic.",
+    "model": "gpt-4o-mini",
+    "temperature": 0.7
+  }'
+
+# Chat with your agent
+AGENT_ID=$(curl -s "http://localhost:8000/api/agents/" | jq -r '.[0].id')
+curl -X POST "http://localhost:8000/api/agents/$AGENT_ID/chat" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Explain the concept of machine learning in simple terms."
+  }'
 ```
 
----
+## 🛠️ Tech Stack
 
-## Create an Agent
+| Layer | Technology |
+|-------|------------|
+| **Backend** | FastAPI (Python) |
+| **Frontend** | React/Vue.js (Coming Soon) |
+| **Database** | PostgreSQL |
+| **ORM** | SQLAlchemy |
+| **Cache** | Redis (Optional) |
+| **AI Providers** | OpenAI, Anthropic, Google, Hugging Face |
+| **Authentication** | JWT, OAuth2 |
+| **API Docs** | Swagger/OpenAPI |
+| **Testing** | Pytest, Jest |
+| **Deployment** | Docker, Docker Compose, Kubernetes |
+| **Monitoring** | Prometheus, Grafana |
 
-```http
-POST /api/agents/
-```
+## 🧪 Testing
 
-Example:
-
-```json
-{
-  "name": "Research Assistant",
-  "description": "An AI assistant for research",
-  "system_prompt": "You are an expert research assistant.",
-  "model": "gpt-4o"
-}
-```
-
----
-
-## Get an Agent
-
-```http
-GET /api/agents/{agent_id}
-```
-
-Example:
+Run the test suite to ensure everything is working correctly:
 
 ```bash
-curl http://127.0.0.1:8000/api/agents/YOUR_AGENT_ID
-```
-
----
-
-## Chat With an Agent
-
-```http
-POST /api/agents/{agent_id}/chat
-```
-
-Request:
-
-```json
-{
-  "message": "Explain machine learning in simple terms."
-}
-```
-
-Response:
-
-```json
-{
-  "agent_id": "agent-id",
-  "message": "Explain machine learning in simple terms.",
-  "response": "Machine learning is a way for computers to learn patterns from data..."
-}
-```
-
----
-
-# 🤖 Agent System
-
-Each FlowMind agent contains configuration similar to:
-
-```text
-Agent
-├── ID
-├── Name
-├── Description
-├── System Prompt
-├── Model
-└── Metadata
-```
-
-The system prompt determines the agent's behavior.
-
-For example:
-
-```text
-You are a senior software engineer.
-
-Your responsibilities:
-- Write clean code
-- Explain technical concepts clearly
-- Identify bugs
-- Suggest scalable solutions
-```
-
-The AI service then combines:
-
-```text
-System Prompt
-       +
-User Message
-       ↓
-AI Model
-       ↓
-Generated Response
-```
-
----
-
-# 🛠️ Tech Stack
-
-| Layer             | Technology        |
-| ----------------- | ----------------- |
-| Backend           | FastAPI           |
-| Language          | Python            |
-| Database          | PostgreSQL        |
-| ORM               | SQLAlchemy        |
-| API Documentation | Swagger / OpenAPI |
-| AI                | LLM APIs          |
-| Frontend          | Coming Soon       |
-| Authentication    | Coming Soon       |
-| Workflow Engine   | Coming Soon       |
-
----
-
-# 🧪 Testing
-
-Run tests with:
-
-```bash
+# Backend tests
+cd backend
 pytest
+
+# Frontend tests (when implemented)
+cd ../frontend
+npm test
 ```
 
-For a specific test:
-
+To run tests with coverage:
 ```bash
-pytest tests/test_agents.py
+pytest --cov=app tests/
 ```
+
+## 📚 Documentation
+
+- [API Reference](http://localhost:8000/docs) - Interactive Swagger UI
+- [Architecture Guide](docs/architecture.md) - Deep dive into system design
+- [Deployment Guide](docs/deployment.md) - Instructions for various environments
+- [Integration Examples](docs/integrations/) - Sample integrations with popular services
+
+## 🗺️ Roadmap
+
+### Phase 1: Foundation (Complete)
+- ✅ Core agent management system
+- ✅ RESTful API with full CRUD operations
+- ✅ Multiple LLM provider support
+- ✅ PostgreSQL integration
+- ✅ Basic authentication system
+
+### Phase 2: Enhancement (In Progress)
+- 🚧 Real-time chat with WebSocket support
+- 🚧 Agent memory and context persistence
+- 🚧 Workflow builder and automation engine
+- 🚧 Advanced analytics and monitoring
+- 🚧 Comprehensive testing suite
+
+### Phase 3: Expansion (Planned)
+- 🔜 Frontend dashboard application
+- 🔜 Marketplace for community-built agents
+- 🔜 Team collaboration features
+- 🔜 Advanced security and compliance tools
+- 🔜 Mobile applications (iOS/Android)
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Here's how you can help:
+
+1. **Fork the repository** on GitHub
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Make your changes** following our coding standards
+4. **Add tests** for new functionality
+5. **Commit your changes** (`git commit -m 'Add amazing feature'`)
+6. **Push to the branch** (`git push origin feature/amazing-feature`)
+7. **Open a Pull Request**
+
+Please read our [Contributing Guidelines](CONTRIBUTING.md) for detailed instructions.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👏 Acknowledgments
+
+- Thanks to all contributors who have helped shape FlowMind AI
+- Inspired by the growing need for accessible AI agent platforms
+- Built with ❤️ using open-source technologies
+
+## 📧 Contact
+
+Have questions or feedback? Reach out to us:
+- **Issues**: [GitHub Issues](https://github.com/akhilvarier2000/flowmind-ai/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/akhilvarier2000/flowmind-ai/discussions)
+- **Email**: akhil.varier@example.com
 
 ---
-
-# 🗺️ Roadmap
-
-## ✅ Phase 1 — Foundation
-
-* [x] FastAPI backend
-* [x] PostgreSQL integration
-* [x] Agent model
-* [x] Agent CRUD
-* [x] AI service
-* [x] Agent chat API
-
-## 🚧 Phase 2 — Agent Platform
-
-* [ ] Agent authentication
-* [ ] Conversation history
-* [ ] Streaming responses
-* [ ] Agent memory
-* [ ] Token usage tracking
-* [ ] Model selection
-
-## 🔜 Phase 3 — Automation
-
-* [ ] Visual workflow builder
-* [ ] Workflow triggers
-* [ ] Tool integrations
-* [ ] Webhooks
-* [ ] Scheduled workflows
-* [ ] Conditional logic
-
-## 🔮 Phase 4 — Advanced AI
-
-* [ ] RAG
-* [ ] Vector database
-* [ ] Knowledge bases
-* [ ] Multi-agent workflows
-* [ ] Agent-to-agent communication
-* [ ] Evaluation framework
-
----
-
-# 📊 Vision
-
-FlowMind AI aims to evolve from a simple AI-agent API into a complete **AI automation platform**.
-
-```mermaid
-flowchart LR
-
-    User --> Trigger
-
-    Trigger --> Workflow
-
-    Workflow --> Agent
-
-    Agent --> Decision
-
-    Decision --> Tool
-
-    Tool --> Data
-
-    Data --> Agent
-
-    Agent --> Result
-
-    Result --> User
-```
-
-The ultimate goal:
-
-> **Create an AI workflow once. Let it run automatically.**
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome.
-
-### 1. Fork the repository
-
-```bash
-git clone https://github.com/akhilvarier2000/flowmind-ai.git
-```
-
-### 2. Create a branch
-
-```bash
-git checkout -b feature/my-feature
-```
-
-### 3. Make your changes
-
-```bash
-git add .
-git commit -m "Add my feature"
-```
-
-### 4. Push your branch
-
-```bash
-git push origin feature/my-feature
-```
-
-### 5. Open a Pull Request
-
-Please include:
-
-* What you changed
-* Why you changed it
-* How you tested it
-* Screenshots when applicable
-
----
-
-# 📄 License
-
-This project is currently under development.
-
-License information will be added as the project matures.
-
----
-
-# 👨‍💻 Author
-
-## Akhil Varier
-
-Building **FlowMind AI** — an AI automation platform focused on intelligent agents and workflows.
 
 <p align="center">
-
-⭐ If you find this project interesting, consider giving it a star!
-
+  Built with ❤️ by <strong>Akhil Varier</strong> and the FlowMind AI Community
 </p>
 
----
-
 <p align="center">
-
-**Built with Python • FastAPI • PostgreSQL • AI**
-
+  <a href="https://github.com/akhilvarier2000/flowmind-ai/stargazers"><img src="https://img.shields.io/github/stars/akhilvarier2000/flowmind-ai?style=social" alt="GitHub Stars"></a>
+  <a href="https://github.com/akhilvarier2000/flowmind-ai/network/members"><img src="https://img.shields.io/github/forks/akhilvarier2000/flowmind-ai?style=social" alt="GitHub Forks"></a>
 </p>
